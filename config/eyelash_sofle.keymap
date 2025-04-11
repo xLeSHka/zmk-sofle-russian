@@ -5,11 +5,10 @@
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 #include <dt-bindings/zmk/rgb.h>
-#include <dt-bindings/zmk/outputs.h>
 
 &mmv_input_listener { input-processors = <&zip_xy_scaler 2 1>; };
 
@@ -27,14 +26,106 @@
     trigger-period-ms = <16>;
 };
 
-
 / {
-
     scroll_encoder: scroll_encoder {
         compatible = "zmk,behavior-sensor-rotate";
         #sensor-binding-cells = <0>;
         bindings = <&msc SCRL_DOWN>, <&msc SCRL_UP>;
+
         tap-ms = <100>;
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        lpar {
+            bindings = <&kp LPAR>;
+            key-positions = <17 18>;
+        };
+
+        rpar {
+            bindings = <&kp RPAR>;
+            key-positions = <20 21>;
+        };
+
+        lbkt {
+            bindings = <&kp LBKT>;
+            key-positions = <30 31>;
+        };
+
+        rbkt {
+            bindings = <&kp RBKT>;
+            key-positions = <33 34>;
+        };
+
+        lbrc {
+            bindings = <&kp LBRC>;
+            key-positions = <43 44>;
+        };
+
+        rbrc {
+            bindings = <&kp RBRC>;
+            key-positions = <46 47>;
+        };
+
+        minus {
+            bindings = <&kp MINUS>;
+            key-positions = <16 17>;
+        };
+
+        plus {
+            bindings = <&kp PLUS>;
+            key-positions = <15 16>;
+        };
+
+        dqt {
+            bindings = <&kp DQT>;
+            key-positions = <29 30>;
+        };
+
+        sqt {
+            bindings = <&kp SQT>;
+            key-positions = <34 35>;
+        };
+
+        under {
+            bindings = <&kp UNDER>;
+            key-positions = <21 22>;
+        };
+
+        pipe {
+            bindings = <&kp PIPE>;
+            key-positions = <22 23>;
+        };
+
+        tilde {
+            bindings = <&kp TILDE>;
+            key-positions = <14 15>;
+        };
+
+        grave {
+            bindings = <&kp GRAVE>;
+            key-positions = <27 28>;
+        };
+    };
+
+    macros {
+        l_ru: l_ru {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LSHFT &kp LALT &kp N1>;
+            label = "L_RU";
+        };
+
+        l_en: l_en {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LSHFT &kp LALT &kp N2>;
+            label = "L_EN";
+        };
+    };
+
+    behaviors {
     };
 
     keymap {
@@ -42,11 +133,11 @@
 
         layer0 {
             bindings = <
-&kp ESC     &kp N1     &kp N2        &kp N3        &kp N4  &kp N5       &kp UP_ARROW     &kp N6     &kp N7     &kp N8     &kp N9           &kp N0      &kp BACKSPACE
-&kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O            &kp P       &kp BSLH
-&kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L            &kp SEMI    &kp APOS
-&kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT          &kp FSLH    &kp ENTER
-&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 2      &kp RIGHT_SHIFT  &kp DELETE
+&kp ESC     &kp N1     &kp N2        &kp N3        &kp N4  &kp N5       &kp UP_ARROW     &kp N6     &kp N7     &kp N8     &kp N9     &kp N0      &kp BACKSPACE
+&kp TAB     &kp Q      &kp W         &kp E         &kp R   &kp T        &kp DOWN_ARROW   &kp Y      &kp U      &kp I      &kp O      &kp P       &kp BSLH
+&kp CAPS    &kp A      &kp S         &kp D         &kp F   &kp G        &kp LEFT_ARROW   &kp H      &kp J      &kp K      &kp L      &kp SEMI    &kp APOS
+&kp LSHFT   &kp Z      &kp X         &kp C         &kp V   &kp B        &kp RIGHT_ARROW  &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH    &kp ENTER
+&kp C_MUTE  &kp LCTRL  &kp LEFT_GUI  &kp LEFT_ALT  &mo 1   &kp SPACE    &kp ENTER        &kp SPACE  &kp ENTER  &mo 2      &kp RSHFT  &kp DELETE
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOLUME_UP C_VOL_DN>;
@@ -59,7 +150,7 @@
 &trans      &kp GRAVE        &mkp LCLK       &mkp MCLK        &mkp RCLK        &mkp MB4           &mmv MOVE_DOWN   &kp PG_UP        &kp END          &kp UP      &kp HOME   &kp MINUS         &kp EQUAL
 &trans      &kp TILDE        &trans          &trans           &trans           &mkp MB5           &mmv MOVE_LEFT   &kp PG_DN        &kp LEFT         &kp DOWN    &kp RIGHT  &kp LEFT_BRACKET  &kp RIGHT_BRACKET
 &trans      &rgb_ug RGB_OFF  &rgb_ug RGB_ON  &rgb_ug RGB_EFF  &rgb_ug RGB_EFR  &rgb_ug RGB_SPI    &mmv MOVE_RIGHT  &rgb_ug RGB_BRI  &rgb_ug RGB_BRD  &kp INSERT  &kp F11    &kp F12           &trans
-&kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &trans           &trans           &trans      &trans     &trans
+&kp C_MUTE  &trans           &trans          &trans           &trans           &trans             &mkp LCLK        &l_ru            &l_en            &trans      &trans     &trans
             >;
 
             display-name = "layer1";
@@ -76,16 +167,6 @@
             >;
 
             sensor-bindings = <&scroll_encoder>;
-        };
-
-        layer_3 {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans  &trans  &trans  &trans  &trans
-            >;
         };
     };
 };
